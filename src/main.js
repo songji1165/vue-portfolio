@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import router from './router'
+import router from './router' // index.js 자동으로 연결
 
 new Vue({
   el: "#app",

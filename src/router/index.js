@@ -12,8 +12,8 @@ const NotFound = {
 }
 
 const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+    { path: '/login', component: Login },
+    { path: '*', component: NotFound }
 ]
 
 
