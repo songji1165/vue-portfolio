@@ -1,28 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from '../App.vue'
+import Home from '../components/Home.vue'
+import Login from '../components/Login.vue'
+import NotFound from '../components/NotFound.vue'
 
 Vue.use(VueRouter)
 
-const Login = {
-  template: `<div>Login Page </div>`
-};
-const NotFound = {
-  template: `<div>Page not found</div>`
-}
-
 const routes = [
-    { path: '/login', component: Login },
+  { path: '/', component: Home },
+  { path: '/login', component: Login },
     { path: '*', component: NotFound }
 ]
 
 
 const router = new VueRouter({
   mode:'history',
-  //브라우저에서 라우팅할 때 실행모드 #
-  //브라우저에 history API가 있을 때 #없이 쓸 수 있다.
-  // mode를 history로 바꿔줌 (크롬에서 가능)
-
   routes: routes
 })
 
