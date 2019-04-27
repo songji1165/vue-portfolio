@@ -1,11 +1,16 @@
 <template>
     <div>
         Board 
-        <div>
-           bid : {{bid}}
+        <div
+            v-if="loading">loading board ...
         </div>
-        <router-link :to="`/b/${bid}/c/1`">Card1</router-link>
-        <router-link :to="`/b/${bid}/c/2`">Card2</router-link>
+        <div v-else>
+            <div>
+            bid : {{bid}}
+            </div>
+            <router-link :to="`/b/${bid}/c/1`">Card1</router-link>
+            <router-link :to="`/b/${bid}/c/2`">Card2</router-link>
+        </div>
         <hr/>
         <router-view></router-view>
     </div>
@@ -18,15 +23,23 @@
 export default {
     data () {
         return {
-            bid : 0
+            bid : 0,
+            loading : false
         }
     },
     created(){ //컴퍼넌트가 실행될때 생성되는 것 
-        this.bid = this.$route.params.bid
-            // Vue.use로 라우터를 주입해줌으로써 this.$router로 접근할 수 있게 된다.
-            // this.$router 는 router이다. => 라우터에관한정보!
-            //$route라는 객체를 통해 정보를 조회 할수 있다.
-            // params 아이디의 정보를 얻을 수 있다.
+        this.fetchData()
+    },
+    methods : {
+        //fetchData : 백엔드 데이터를 요청하고 호출
+        fetchData () {
+            this.loading = true
+            setTimeout(() => {
+                this.bid = this.$route.params.bid
+                this.loading = false
+            },500) //시뮬레이션을 위해 지연시켜봄
+
+        }
     }
 }
 </script>
