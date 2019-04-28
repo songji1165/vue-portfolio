@@ -5,7 +5,9 @@
       Board List :
       <div v-if="loading">Loading ..</div>
       <div v-else>Api result : {{ apiRes }}</div>
-
+        <div v-if="error">
+           <pre>{{error}}</pre>
+        </div>
       <ul>
         <li>
           <router-link to="/b/1">Board1</router-link>
@@ -19,11 +21,14 @@
 </template>
 
 <script>
+  import axios from "axios"; //axios 불러오기
+
   export default {
     data() {
       return {
         loading: false,
-        apiRes: ""
+        apiRes: "",
+        error: ""
       };
     },
     created() {
@@ -32,25 +37,33 @@
     methods: {
       fetchData() {
         this.loading = true;
-        //순수 브라우저 API로  http 통신해봄
-        //1. 요청객체 만들기
-        const req = new XMLHttpRequest();
+        //axios 설치
 
-        //2.
-        req.open("GET", "http://localhost:3000/health");
-
-        req.send();
-
-        req.addEventListener("load", () => {
-          this.loading = false;
-          this.apiRes = {
-            status: req.status, //status 코드
-            statusText: req.statusText, //문자열로 넘어옴
-            response: JSON.parse(req.response)
-            //문자열로 넘어온 것 객체로 파싱
-          };
-        });
+        axios
+          .get("http://localhost:3000/healthh")
+          .then(res => {
+            //응답받음 (성공)
+            this.apiRes = res.data;
+          })
+          .catch(res => {
+            //에러일 경우
+            this.error = res.response.data;
+          })
+          .finally(() => {
+            //then,catch 수행후 공통적으로
+            this.loading = false;
+          });
       }
     }
   };
 </script>
+
+<!-- axios promise기반의 http 클리아언트 ,브라우저와node에서 사용가능
+-순수 브라우저 API로  http 통신해봄 => 이것을 만들어줌
+-자동 json 변환 등등 특징많다!
+
+1. 라이브러리 설치 
+npm install axios
+
+
+-->
