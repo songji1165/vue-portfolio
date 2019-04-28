@@ -5,9 +5,9 @@
       Board List :
       <div v-if="loading">Loading ..</div>
       <div v-else>Api result : {{ apiRes }}</div>
-        <div v-if="error">
-           <pre>{{error}}</pre>
-        </div>
+      <div v-if="error">
+        <pre>{{ error }}</pre>
+      </div>
       <ul>
         <li>
           <router-link to="/b/1">Board1</router-link>
@@ -31,7 +31,8 @@
         error: ""
       };
     },
-    created() {
+
+    mounted() {
       this.fetchData();
     },
     methods: {
