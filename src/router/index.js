@@ -8,7 +8,7 @@ import NotFound from "../components/NotFound.vue";
 
 Vue.use(VueRouter);
 
-const requeirAuth = (to, from, next) => {
+const requireAuth = (to, from, next) => {
   //to : 현재경로
 
   //토근정보가 있으면 LS에 저장
@@ -29,7 +29,7 @@ const routes = [
   {
     path: "/",
     component: Home,
-    beforeEnter: requeirAuth
+    beforeEnter: requireAuth
   },
   {
     path: "/login",
@@ -38,13 +38,13 @@ const routes = [
   {
     path: "/b/:bid",
     component: Board,
-    beforeEnter: requeirAuth,
+    beforeEnter: requireAuth,
     children: [
       //하위경로 지정 http://localhost:8080/b/1/c/1 중첩라우터
       {
         path: "c/:cid",
         component: Card,
-        beforeEnter: requeirAuth
+        beforeEnter: requireAuth
       }
     ]
   },

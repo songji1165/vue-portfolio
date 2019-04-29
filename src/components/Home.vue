@@ -21,7 +21,8 @@
 </template>
 
 <script>
-  import { board } from "../api"; //axios 불러오기
+  import { board } from "../api"; 
+  // apin/index.js에서 board객체를 추출
 
   export default {
     mounted() {
@@ -38,7 +39,7 @@
         this.loading = true;
         board
           .fetch()
-          .then(data => {
+          .then(data => { //성공시 ( = aixois get().then())
             this.boards = data;
           })
           .finally(_ => {
