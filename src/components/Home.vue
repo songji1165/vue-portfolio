@@ -5,9 +5,7 @@
       Board List :
       <div v-if="loading">Loading ..</div>
       <div v-else>
-          <div
-            v-for="b in boards" :key="b.id"
-          > {{b}}</div>
+        <div v-for="b in boards" :key="b.id">{{ b }}</div>
       </div>
 
       <ul>
@@ -23,38 +21,30 @@
 </template>
 
 <script>
-  import axios from "axios"; //axios 불러오기
+  import { board } from "../api"; //axios 불러오기
 
   export default {
+    mounted() {
+      this.fetchData();
+    },
     data() {
       return {
         loading: false,
         boards: []
       };
     },
-
-    mounted() {
-      this.fetchData();
-    },
     methods: {
       fetchData() {
         this.loading = true;
-        //axios 설치
-
-        axios
-          .get("http://localhost:3000/boards")
-          .then(res => {
-            //응답받음 (성공)
-            this.boards = res.data;
+        board
+          .fetch()
+          .then(data => {
+            this.boards = data;
           })
-          .catch(res => {
-            //에러일 경우
-            this.$router.replace("/login");
-          })
-          .finally(() => {
-            //then,catch 수행후 공통적으로
+          .finally(_ => {
             this.loading = false;
           });
+        //   유지보수면에서 의존적인 코드는 삼가해주자 aixos를 별도의 파일로!
       }
     }
   };
