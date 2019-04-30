@@ -18,21 +18,28 @@
           Create new board...
         </a>
       </div>
+      <Add-board
+        v-if="isAddBoard"
+        @close="isAddBoard=false"
+        @submit="onAddBoard"/>
     </div>
   </div>
 </template>
 
 <script>
   import { board } from "../api";
+  import AddBoard from "./AddBoard"
 
   export default {
     data() {
       return {
         loading: false,
         boards: [],
-        error: ""
+        error: "",
+        isAddBoard: false
       };
     },
+    components : {AddBoard},
     created() {
       this.fetchData();
     },
@@ -58,7 +65,12 @@
           });
       },
       addBoard() {
-        console.log("addBoard()");
+        this.isAddBoard = true
+      },
+      onAddBoard(title){ //새로운 보드 추가를 위해 api 호출
+        board.create(title).then(() => {
+          this.fetchData()
+        })
       }
     }
   };
