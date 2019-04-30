@@ -1,3 +1,8 @@
+Skip to content Search or jump to… Pull requests Issues Marketplace Explore
+@songji1165 Code Issues 1 Pull requests 0 Projects 0 Wiki Pulse Community
+lecture-vue-trello/src/components/Login.vue @jeonghwan-kim jeonghwan-kim Login
+onSumbit() 구현 9272f7c on 6 Aug 2018 68 lines (63 sloc) 1.43 KB
+
 <template>
   <div class="login">
     <h2>Log in to Trello</h2>
@@ -37,7 +42,6 @@
 
 <script>
   import { auth, setAuthInHeader } from "../api";
-
   export default {
     data() {
       return {
@@ -53,9 +57,6 @@
       }
     },
     created() {
-      //$route를 통해 라우터정보 접속
-      // .query로 쿼리문자열 가져옴
-      // 아무것도 없을 땐 '/' 기본 경로 설정
       this.rPath = this.$route.query.rPath || "/";
     },
     methods: {
@@ -63,10 +64,9 @@
         auth
           .login(this.email, this.password)
           .then(data => {
-            // console.log(data);
             localStorage.setItem("token", data.accessToken);
             setAuthInHeader(data.accessToken);
-            this.$router.push(this.rPath); //this.rPath로 리다이렉트
+            this.$router.push(this.rPath);
           })
           .catch(err => {
             this.error = err.data.error;
@@ -85,3 +85,5 @@
     color: #f00;
   }
 </style>
+© 2019 GitHub, Inc. Terms Privacy Security Status Help Contact GitHub Pricing
+API Training Blog About
