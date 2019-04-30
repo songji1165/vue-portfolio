@@ -72,5 +72,3 @@
     background-color: rgba(255, 255, 255, 0.3);
   }
 </style>
-© 2019 GitHub, Inc. Terms Privacy Security Status Help Contact GitHub Pricing
-API Training Blog About

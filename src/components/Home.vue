@@ -1,38 +1,49 @@
 <template>
   <div>
-    HOME
-    <div>
-      Board List :
-      <div v-if="loading">Loading ..</div>
-      <div v-else>
-        <div v-for="b in boards" :key="b.id">{{ b }}</div>
+    <div class="home-title">Personal Boards</div>
+    <div class="board-list" ref="boardList">
+      <div
+        class="board-item"
+        v-for="b in boards"
+        :key="b.id"
+        :data-bgcolor="b.bgColor"
+        ref="boardItem"
+      >
+        <router-link :to="`/b/${b.id}`">
+          <div class="board-item-title">{{ b.title }}</div>
+        </router-link>
       </div>
-
-      <ul>
-        <li>
-          <router-link to="/b/1">Board1</router-link>
-        </li>
-        <li>
-          <router-link to="/b/2">Board2</router-link>
-        </li>
-      </ul>
+      <div class="board-item board-item-new">
+        <a class="new-board-btn" href="" @click.prevent="addBoard">
+          Create new board...
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import { board } from "../api";
-  // apin/index.js에서 board객체를 추출
 
   export default {
-    mounted() {
-      this.fetchData();
-    },
     data() {
       return {
         loading: false,
-        boards: []
+        boards: [],
+        error: ""
       };
+    },
+    created() {
+      this.fetchData();
+    },
+    updated() {
+      //매번호출됨, created의 호출다음, data변화감지 시 등 ..
+
+      //컴포넌트의 refs중 boardItem을 찾아옴
+      this.$refs.boardItem.forEach(el => {
+        //:data-bgcolor="b.bgColor" 에 해당
+        el.style.backgroundColor = el.dataset.bgcolor;
+      });
     },
     methods: {
       fetchData() {
@@ -40,24 +51,63 @@
         board
           .fetch()
           .then(data => {
-            //성공시 ( = aixois get().then())
-            this.boards = data;
+            this.boards = data.list;
           })
           .finally(_ => {
             this.loading = false;
           });
-        //   유지보수면에서 의존적인 코드는 삼가해주자 aixos를 별도의 파일로!
+      },
+      addBoard() {
+        console.log("addBoard()");
       }
     }
   };
 </script>
 
-<!-- axios promise기반의 http 클리아언트 ,브라우저와node에서 사용가능
--순수 브라우저 API로  http 통신해봄 => 이것을 만들어줌
--자동 json 변환 등등 특징많다!
-
-1. 라이브러리 설치 
-npm install axios
-
-
--->
+<style>
+  .home-title {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .board-list {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .board-item {
+    width: 23%;
+    height: 100px;
+    margin: 0 2% 20px 0;
+    border-radius: 3px;
+  }
+  .board-item-new {
+    background-color: #ddd;
+  }
+  .board-item a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .board-item a:hover,
+  .board-item a:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #666;
+  }
+  .board-item-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 10px;
+  }
+  .board-item a.new-board-btn {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    height: 100px;
+    width: inherit;
+    color: #888;
+    font-weight: 700;
+  }
+</style>
