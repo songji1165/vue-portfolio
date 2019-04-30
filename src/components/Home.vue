@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { board } from "../api"; 
+  import { board } from "../api";
   // apin/index.js에서 board객체를 추출
 
   export default {
@@ -39,7 +39,8 @@
         this.loading = true;
         board
           .fetch()
-          .then(data => { //성공시 ( = aixois get().then())
+          .then(data => {
+            //성공시 ( = aixois get().then())
             this.boards = data;
           })
           .finally(_ => {
