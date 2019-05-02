@@ -14,7 +14,8 @@
         </router-link>
       </div>
       <div class="board-item board-item-new">
-        <a class="new-board-btn" href="" @click.prevent="addBoard">
+        <a class="new-board-btn" href="" @click.prevent="SET_IS_ADD_BOARD(true)"
+        >
           Create new board...
         </a>
       </div>
@@ -29,7 +30,7 @@
 <script>
   import { board } from "../api";
   import AddBoard from "./AddBoard"
-  import {mapState} from "vuex" //mapstate함수 갖고오기
+  import {mapState, mapMutations} from "vuex" //mapstate함수 갖고오기
 
   export default {
     data() {
@@ -67,10 +68,14 @@
             this.loading = false;
           });
       },
-      addBoard() {
+      ...mapMutations([
+        'SET_IS_ADD_BOARD'
+      ]),
+      // addBoard() {
+      //   this.$store.commit('SET_IS_ADD_BOARD', true)
         // this.isAddBoard = true
         // store에 state값을 변경하자 !! MOUTATION변이 함수를 사용하자 !!
-      },
+      // },
       onAddBoard(title){ //새로운 보드 추가를 위해 api 호출
         board.create(title).then(() => {
           this.fetchData()
