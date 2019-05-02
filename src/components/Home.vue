@@ -29,6 +29,7 @@
 <script>
   import { board } from "../api";
   import AddBoard from "./AddBoard"
+  import {mapState} from "vuex" //mapstate함수 갖고오기
 
   export default {
     data() {
@@ -36,17 +37,19 @@
         loading: false,
         boards: [],
         error: "",
-        isAddBoard: false
+        // isAddBoard: false
       };
     },
+    computed : {
+      ...mapState ({
+      isAddBoard : 'isAddBoard'
+    }), // 컴퓨티드속성에 mapsstate결과값을 설정해버리면 따로 추가할 수 없기 때문에 es6문법에 해체문법을 사용해서 추가한다.
+  },
     components : {AddBoard},
     created() {
       this.fetchData();
     },
     updated() {
-      //매번호출됨, created의 호출다음, data변화감지 시 등 ..
-
-      //컴포넌트의 refs중 boardItem을 찾아옴
       this.$refs.boardItem.forEach(el => {
         //:data-bgcolor="b.bgColor" 에 해당
         el.style.backgroundColor = el.dataset.bgcolor;
@@ -65,7 +68,8 @@
           });
       },
       addBoard() {
-        this.isAddBoard = true
+        // this.isAddBoard = true
+        // store에 state값을 변경하자 !! MOUTATION변이 함수를 사용하자 !!
       },
       onAddBoard(title){ //새로운 보드 추가를 위해 api 호출
         board.create(title).then(() => {
